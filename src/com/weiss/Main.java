@@ -39,6 +39,6 @@ public class Main {
             public void run() {
                 SaveManager.save();
             }
-        }, 0, 10000L);
+        }, 0, 5000L);
     }
 }

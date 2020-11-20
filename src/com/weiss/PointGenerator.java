@@ -31,7 +31,7 @@ public class PointGenerator {
     }
 
     public void update() {
-        btn_buy.setEnabled(points >= (getCost(GUI_Upgrades.buyAmount) * GUI_Upgrades.buyAmount));
+        btn_buy.setEnabled(points >= getCost(GUI_Upgrades.buyAmount) * GUI_Upgrades.buyAmount);
         btn_buy.setText(name + " - " + cost + " Points - x" + count);
     }
 

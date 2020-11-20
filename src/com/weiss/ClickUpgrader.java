@@ -18,26 +18,21 @@ public class ClickUpgrader {
         cost = initialCost;
         this.name = name;
         btn_buy = connectedButton;
-        btn_buy.addActionListener(e -> {
-            points -= cost;
-            clickMultiplier += 1;
-            cost *= 1.5;
-            btn_buy.setText(name + " - " + cost + " Points - x" + ++count);
-            Main.update();
-        });
+        clickUpgraders.add(this);
+        btn_buy.addActionListener(e -> buy(GUI_Upgrades.buyAmount));
     }
 
     public void buy(int amount) {
         for (int i = 0; i < amount; i++) {
             count++;
             points -= cost;
-            cost *= 1.35;
+            cost *= 1.5;
             Main.update();
         }
     }
 
     public void update() {
-        btn_buy.setEnabled(points >= (getCost(GUI_Upgrades.buyAmount) * GUI_Upgrades.buyAmount));
+        btn_buy.setEnabled(points >= getCost(GUI_Upgrades.buyAmount) * GUI_Upgrades.buyAmount);
         btn_buy.setText(name + " - " + cost + " Points - x" + count);
     }
 
