@@ -28,12 +28,13 @@ public class SaveManager {
     public static void load() {
         try(FileReader fileReader = new FileReader("save.properties")) {
             data.load(fileReader);
-            points = Integer.parseInt(data.getProperty("points"));
+            points += Integer.parseInt(data.getProperty("points"));
             clickUpgraders.forEach(clickUpgrader -> clickUpgrader.setCount(Integer.parseInt(data.getProperty(clickUpgrader.getName() + " Count"))));
             pointGenerators.forEach(pointGenerator -> pointGenerator.setCount(Integer.parseInt(data.getProperty(pointGenerator.getName() + " Count"))));
             int timePassed = (int) ((System.currentTimeMillis() - Long.parseLong(data.getProperty("time"))) / 1000);
             int offlinePoints = timePassed * tick();
-            JOptionPane.showMessageDialog(GUI.frame, "You have earned " + offlinePoints + " points while offline.");
+            if (offlinePoints > 0)
+                JOptionPane.showMessageDialog(GUI.frame, "You have earned " + offlinePoints + " points while offline.");
             points += offlinePoints;
         } catch (IOException e) {
             System.out.println("No save data found!\nCreating new data...");

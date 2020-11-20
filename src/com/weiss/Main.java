@@ -26,6 +26,12 @@ public class Main {
         GUI_Upgrades.checkPoints();
     }
     public static void main(String[] args) {
+        for (String arg : args) {
+            switch (arg) {
+                case "reset" -> SaveManager.save();
+                case "cheatMode" -> points += 1000000;
+            }
+        }
         SaveManager.init();
         GUI.init();
         tickTimer.scheduleAtFixedRate(new TimerTask() {
