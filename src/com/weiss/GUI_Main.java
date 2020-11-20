@@ -16,8 +16,9 @@ public class GUI_Main {
     public JFrame frame = new JFrame("Clicker");
     public GUI_Main() {
         btn_click.addActionListener(e -> {
-                points += (clickMultiplier);
-                update();
+            clickUpgraders.forEach(clickUpgrader -> points += clickUpgrader.getCount() * clickUpgrader.getPointsPerClick());
+            points++;
+            update();
         });
         btn_upgrades.addActionListener(e -> GUI_Upgrades.init());
         btn_idle_upgrades.addActionListener(e -> GUI_Idle_Upgrades.init());

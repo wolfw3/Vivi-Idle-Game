@@ -6,29 +6,39 @@ import java.util.TimerTask;
 
 public class Main {
     public static ArrayList<PointGenerator> pointGenerators = new ArrayList<>();
+    public static ArrayList<ClickUpgrader> clickUpgraders = new ArrayList<>();
     public static int points = 0;
     public static int tickSpeed = 2; //Ticks per second
     public static int clickMultiplier = 1;
     public static Timer tickTimer = new Timer("Tick");
+    public static Timer saveTimer = new Timer("Autosave");
     public static GUI_Main GUI = new GUI_Main();
     public static GUI_Idle_Upgrades GUI_Idle_Upgrades = new GUI_Idle_Upgrades();
     public static GUI_Upgrades GUI_Upgrades = new GUI_Upgrades();
-    public static void tick() {
-        pointGenerators.forEach(pointGenerator -> points += pointGenerator.getCount() * pointGenerator.getPointsPerTick());
+    public static int tick() {
+        int addedPoints = pointGenerators.stream().mapToInt(pointGenerator -> pointGenerator.getCount() * pointGenerator.getPointsPerTick()).sum();
+        points += addedPoints;
         update();
+        return addedPoints;
     }
     public static void update() {
         GUI.setPoints();
         GUI_Upgrades.checkPoints();
-        GUI_Upgrades.btn_click_upgrade.setEnabled(points >= GUI_Upgrades.clickUpgradeCost);
     }
     public static void main(String[] args) {
+        SaveManager.init();
+        GUI.init();
         tickTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 tick();
             }
         }, 0, (1000L / tickSpeed));
-        GUI.init();
+        saveTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                SaveManager.save();
+            }
+        }, 0, 10000L);
     }
 }

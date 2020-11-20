@@ -2,10 +2,6 @@ package com.weiss;
 
 import javax.swing.*;
 
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import static com.weiss.Main.*;
 
 public class GUI_Upgrades {
@@ -20,20 +16,14 @@ public class GUI_Upgrades {
     public PointGenerator smallPointGen = new PointGenerator(1, 10, "Small Point Generator", btn_small_point_gen);
     public PointGenerator mediumPointGen = new PointGenerator(3, 100, "Medium Point Generator", btn_medium_point_gen);
     public PointGenerator largePointGen = new PointGenerator(8, 1000, "Large Point Generator", btn_large_point_gen);
+    public ClickUpgrader smallClickUpgrader = new ClickUpgrader(1, 100, "Small Click Upgrader", btn_click_upgrade);
 
-    public int clickUpgradeCost = 100;
-    private int clickUpgradeCount = 0;
     public GUI_Upgrades() {
-        btn_click_upgrade.addActionListener(e -> {
-            clickMultiplier += 1;
-            clickUpgradeCost *= 1.5;
-            btn_click_upgrade.setText("Click Upgrade - " + clickUpgradeCost + " Points - x" + ++clickUpgradeCount);
-            update();
-        });
     }
 
     public void checkPoints() {
         pointGenerators.forEach(PointGenerator::update);
+        clickUpgraders.forEach(ClickUpgrader::update);
     }
 
     public void init() {

@@ -3,22 +3,28 @@ package com.weiss;
 import javax.swing.*;
 
 import static com.weiss.Main.*;
+import static com.weiss.Main.update;
 
-public class PointGenerator {
+public class ClickUpgrader {
+    private final int pointsPerClick;
     private final int initialCost;
     private int cost;
-    private final int pointsPerTick;
     private int count = 0;
-    private final JButton btn_buy;
     private final String name;
-    public PointGenerator(int pointsPerTick, int initialCost, String name, JButton connectedButton) {
-        this.pointsPerTick = pointsPerTick;
-        cost = initialCost;
+    private final JButton btn_buy;
+    public ClickUpgrader(int pointsPerClick, int initialCost, String name, JButton connectedButton) {
+        this.pointsPerClick = pointsPerClick;
         this.initialCost = initialCost;
+        cost = initialCost;
         this.name = name;
         btn_buy = connectedButton;
-        pointGenerators.add(this);
-        btn_buy.addActionListener(e -> buy(GUI_Upgrades.buyAmount));
+        btn_buy.addActionListener(e -> {
+            points -= cost;
+            clickMultiplier += 1;
+            cost *= 1.5;
+            btn_buy.setText(name + " - " + cost + " Points - x" + ++count);
+            Main.update();
+        });
     }
 
     public void buy(int amount) {
@@ -35,12 +41,16 @@ public class PointGenerator {
         btn_buy.setText(name + " - " + cost + " Points - x" + count);
     }
 
-    public int getPointsPerTick() {
-        return pointsPerTick;
+    private int getCost(int buyAmount) {
+        return cost;
     }
 
-    public int getCost(int amount) {
-        return cost;
+    public int getPointsPerClick() {
+        return pointsPerClick;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getCount() {
@@ -51,11 +61,7 @@ public class PointGenerator {
         count = number;
         cost = initialCost;
         for (int i = 1; i <= count; i++) {
-            cost *= 1.35;
+            cost *= 1.5;
         }
-    }
-
-    public String getName() {
-        return name;
     }
 }
