@@ -9,7 +9,6 @@ public class Main {
     public static ArrayList<ClickUpgrader> clickUpgraders = new ArrayList<>();
     public static int points = 0;
     public static int tickSpeed = 2; //Ticks per second
-    public static int clickMultiplier = 1;
     public static Timer tickTimer = new Timer("Tick");
     public static Timer saveTimer = new Timer("Autosave");
     public static GUI_Main GUI = new GUI_Main();
@@ -36,10 +35,10 @@ public class Main {
                         points += 1000000;
                         break;
                     default:
-                        throw new IllegalStateException("Unexpected argument: " + arg);
+                        throw new IllegalArgumentException("Illegal argument: " + arg);
                 }
             }
-        } catch (IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
             exception.printStackTrace();
         }
         SaveManager.init();
