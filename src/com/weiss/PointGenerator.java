@@ -11,6 +11,7 @@ public class PointGenerator {
     private int count = 0;
     private final JButton btn_buy;
     private final String name;
+
     public PointGenerator(int pointsPerTick, int initialCost, String name, JButton connectedButton) {
         this.pointsPerTick = pointsPerTick;
         cost = initialCost;
@@ -47,7 +48,7 @@ public class PointGenerator {
         return count;
     }
 
-    public void setCount(int number) {
+    public void setCount(int number) { //Sets number of generators and loops through costs to find the correct amount
         count = number;
         cost = initialCost;
         for (int i = 1; i <= count; i++) {

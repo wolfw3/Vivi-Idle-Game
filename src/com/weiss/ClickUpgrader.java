@@ -32,8 +32,8 @@ public class ClickUpgrader {
     }
 
     public void update() {
-        btn_buy.setEnabled(points >= getCost(GUI_Upgrades.buyAmount) * GUI_Upgrades.buyAmount);
-        btn_buy.setText(name + " - " + cost + " Points - x" + count);
+        btn_buy.setEnabled(points >= getCost(GUI_Upgrades.buyAmount) * GUI_Upgrades.buyAmount); //Finds if the buy button should be enabled
+        btn_buy.setText(name + " - " + cost + " Points - x" + count); //Updates button texts' cost and count
     }
 
     private int getCost(int buyAmount) {
@@ -52,7 +52,7 @@ public class ClickUpgrader {
         return count;
     }
 
-    public void setCount(int number) {
+    public void setCount(int number) { //Sets number of upgraders and loops through costs to find the correct amount
         count = number;
         cost = initialCost;
         for (int i = 1; i <= count; i++) {

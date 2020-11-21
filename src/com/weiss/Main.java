@@ -14,15 +14,16 @@ public class Main {
     public static GUI_Main GUI = new GUI_Main();
     public static GUI_Idle_Upgrades GUI_Idle_Upgrades = new GUI_Idle_Upgrades();
     public static GUI_Upgrades GUI_Upgrades = new GUI_Upgrades();
-    public static int tick() {
-        int addedPoints = pointGenerators.stream().mapToInt(pointGenerator -> pointGenerator.getCount() * pointGenerator.getPointsPerTick()).sum();
-        points += addedPoints;
-        update();
-        return addedPoints;
+
+    public static int tick() { //Gets passive point gain and adds to total
+        int addedPoints = pointGenerators.stream().mapToInt(pointGenerator -> pointGenerator.getCount() * pointGenerator.getPointsPerTick()).sum(); //Gets passive points gained
+        points += addedPoints; //Adds points to total
+        update(); //Updates info on GUI
+        return addedPoints; //Returns the amount of points added, used for idle progress calculation
     }
     public static void update() {
-        GUI.setPoints();
-        GUI_Upgrades.checkPoints();
+        GUI.setPoints(); //Sets GUI points label to current total
+        GUI_Upgrades.checkPoints(); //Checks if any upgrades should be allowed to buy
     }
     public static void main(String[] args) {
         try {
@@ -41,15 +42,15 @@ public class Main {
         } catch (IllegalArgumentException exception) {
             exception.printStackTrace();
         }
-        SaveManager.init();
-        GUI.init();
-        tickTimer.scheduleAtFixedRate(new TimerTask() {
+        SaveManager.load(); //Loads data or creates new file if none exists
+        GUI.init(); //Starts the game GUI
+        tickTimer.scheduleAtFixedRate(new TimerTask() { //Passive point calculation
             @Override
             public void run() {
                 tick();
             }
         }, 0, (1000L / tickSpeed));
-        saveTimer.scheduleAtFixedRate(new TimerTask() {
+        saveTimer.scheduleAtFixedRate(new TimerTask() { //Autosave timer
             @Override
             public void run() {
                 SaveManager.save();

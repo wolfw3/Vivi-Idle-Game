@@ -22,8 +22,8 @@ public class GUI_Upgrades {
     }
 
     public void checkPoints() {
-        pointGenerators.forEach(PointGenerator::update);
-        clickUpgraders.forEach(ClickUpgrader::update);
+        pointGenerators.forEach(PointGenerator::update); //Checks if any point generator upgrades should be allowed
+        clickUpgraders.forEach(ClickUpgrader::update);//Checks if any click upgrader upgrades should be allowed
     }
 
     public void init() {
