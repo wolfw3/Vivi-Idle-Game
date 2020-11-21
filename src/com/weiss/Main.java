@@ -26,11 +26,21 @@ public class Main {
         GUI_Upgrades.checkPoints();
     }
     public static void main(String[] args) {
-        for (String arg : args) {
-            switch (arg) {
-                case "reset" -> SaveManager.save();
-                case "cheatMode" -> points += 1000000;
+        try {
+            for (String arg : args) {
+                switch (arg) {
+                    case "reset":
+                        SaveManager.save();
+                        break;
+                    case "cheatMode":
+                        points += 1000000;
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected argument: " + arg);
+                }
             }
+        } catch (IllegalStateException exception) {
+            exception.printStackTrace();
         }
         SaveManager.init();
         GUI.init();
