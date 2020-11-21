@@ -55,7 +55,7 @@ public class ClickUpgrader {
     public void setCount(int number) { //Sets number of upgraders and loops through costs to find the correct amount
         count = number;
         cost = initialCost;
-        for (int i = 1; i <= count; i++) {
+        for (int i = 0; i < count; i++) {
             cost *= 1.5;
         }
     }

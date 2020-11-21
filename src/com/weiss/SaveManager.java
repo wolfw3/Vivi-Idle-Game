@@ -7,15 +7,18 @@ import java.io.IOException;
 import java.util.Properties;
 
 import static com.weiss.Main.*;
+import static java.lang.String.valueOf;
 
 public class SaveManager {
     public static Properties data = new Properties();
 
     public static void save() {
-        data.setProperty("points", String.valueOf(points)); //Stores points
-        data.setProperty("time", String.valueOf(System.currentTimeMillis())); //Stores current time to calculate idle progress
-        clickUpgraders.forEach(clickUpgrader -> data.setProperty(clickUpgrader.getName() + " Count", String.valueOf(clickUpgrader.getCount()))); //Stores all ClickUpgraders
-        pointGenerators.forEach(pointGenerator -> data.setProperty(pointGenerator.getName() + " Count", String.valueOf(pointGenerator.getCount()))); //Stores all PointGenerators
+        data.setProperty("points", valueOf(points)); //Stores points
+        data.setProperty("time", valueOf(System.currentTimeMillis())); //Stores current time to calculate idle progress
+        data.setProperty("idleTimeUpgradeCount", valueOf(GUI_Idle_Upgrades.idleTimeUpgradeCount));
+        data.setProperty("idleTickSpeedUpgradeCount", valueOf(GUI_Idle_Upgrades.idleTickSpeedUpgradeCount));
+        clickUpgraders.forEach(clickUpgrader -> data.setProperty(clickUpgrader.getName() + " Count", valueOf(clickUpgrader.getCount()))); //Stores all ClickUpgraders
+        pointGenerators.forEach(pointGenerator -> data.setProperty(pointGenerator.getName() + " Count", valueOf(pointGenerator.getCount()))); //Stores all PointGenerators
         try(FileWriter output = new FileWriter("save.properties")) { //Tries to acquire access to save.properties
             data.store(output, "Save Data"); //Stores properties in file
         } catch (IOException e) {
@@ -27,10 +30,13 @@ public class SaveManager {
         try(FileReader fileReader = new FileReader("save.properties")) { //Tries to read save.properties
             data.load(fileReader); //Copies properties into program
             points += Integer.parseInt(data.getProperty("points")); //Adds stored points to total
+            GUI_Idle_Upgrades.setIdleTimeUpgradeCount(Integer.parseInt("idleTimeUpgradeCount"));
+            GUI_Idle_Upgrades.setIdleTickSpeedUpgradeCount(Integer.parseInt(data.getProperty("idleTickSpeedUpgradeCount")));
             clickUpgraders.forEach(clickUpgrader -> clickUpgrader.setCount(Integer.parseInt(data.getProperty(clickUpgrader.getName() + " Count")))); //Sets count of each ClickUpgrader
             pointGenerators.forEach(pointGenerator -> pointGenerator.setCount(Integer.parseInt(data.getProperty(pointGenerator.getName() + " Count")))); //Sets count of each PointGenerator
             int timePassed = (int) ((System.currentTimeMillis() - Long.parseLong(data.getProperty("time"))) / 1000); //Gets time passed since last game open to calculate idle progress
-            int offlinePoints = timePassed * tick(); //Gets points earned offline
+            if (timePassed > idleTime * 3600) timePassed = idleTime * 3600; //If more time has passed than the max idle time, sets it to that
+            int offlinePoints = (int) (timePassed * tick() * tickSpeed * idleTickSpeed); //Gets points earned offline
             if (offlinePoints > 0) //Checks if any points are earned offline
                 JOptionPane.showMessageDialog(GUI.frame, "You have earned " + offlinePoints + " points while offline."); //Shows player how many points they've earned
             points += offlinePoints; //Adds idle points to total count

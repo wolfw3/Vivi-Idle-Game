@@ -8,6 +8,8 @@ public class Main {
     public static ArrayList<PointGenerator> pointGenerators = new ArrayList<>();
     public static ArrayList<ClickUpgrader> clickUpgraders = new ArrayList<>();
     public static int points = 0;
+    public static int idleTime = 2; //Hours
+    public static double idleTickSpeed = 0.5D;
     public static int tickSpeed = 2; //Ticks per second
     public static Timer tickTimer = new Timer("Tick");
     public static Timer saveTimer = new Timer("Autosave");
@@ -24,6 +26,7 @@ public class Main {
     public static void update() {
         GUI.setPoints(); //Sets GUI points label to current total
         GUI_Upgrades.checkPoints(); //Checks if any upgrades should be allowed to buy
+        GUI_Idle_Upgrades.checkPoints();
     }
     public static void main(String[] args) {
         try {
