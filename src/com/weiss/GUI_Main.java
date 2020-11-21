@@ -1,8 +1,6 @@
 package com.weiss;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static com.weiss.Main.*;
 
@@ -13,6 +11,7 @@ public class GUI_Main {
     private JLabel lbl_points;
     private JButton btn_upgrades;
     private JButton btn_idle_upgrades;
+    private JButton btn_exit;
     public JFrame frame = new JFrame("Clicker");
 
     public GUI_Main() {
@@ -23,6 +22,10 @@ public class GUI_Main {
         });
         btn_upgrades.addActionListener(e -> GUI_Upgrades.init()); //Opens upgrade menu on button click
         btn_idle_upgrades.addActionListener(e -> GUI_Idle_Upgrades.init()); //Opens idle upgrade menu on button click
+        btn_exit.addActionListener(actionEvent -> {
+            SaveManager.save();
+            System.exit(1);
+        });
     }
 
     public void setPoints() {
@@ -30,6 +33,7 @@ public class GUI_Main {
     }
 
     public void init() {
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.setContentPane(panel);
         frame.pack();
         frame.setVisible(true);
