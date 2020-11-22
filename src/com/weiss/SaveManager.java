@@ -15,8 +15,12 @@ public class SaveManager {
     public static void save() {
         data.setProperty("points", valueOf(points)); //Stores points
         data.setProperty("time", valueOf(System.currentTimeMillis())); //Stores current time to calculate idle progress
-        data.setProperty("idleTimeUpgradeCount", valueOf(GUI_Idle_Upgrades.idleTimeUpgradeCount));
-        data.setProperty("idleTickSpeedUpgradeCount", valueOf(GUI_Idle_Upgrades.idleTickSpeedUpgradeCount));
+        data.setProperty("idleTimeUpgradeCount", valueOf(IdleUpgrades.idleTimeUpgradeCount));
+        data.setProperty("idleTickSpeedUpgradeCount", valueOf(IdleUpgrades.idleTickSpeedUpgradeCount));
+        data.setProperty("prestigeCount", valueOf(prestigeCount));
+        data.setProperty("prestigePoints", valueOf(prestigePoints));
+        data.setProperty("autobuySmallGenerator", valueOf(Upgrades.smallPointGen.getAutobuy()));
+        data.setProperty("autobuySmallClickUpgrader", valueOf(Upgrades.smallClickUpgrader.getAutobuy()));
         clickUpgraders.forEach(clickUpgrader -> data.setProperty(clickUpgrader.getName() + " Count", valueOf(clickUpgrader.getCount()))); //Stores all ClickUpgraders
         pointGenerators.forEach(pointGenerator -> data.setProperty(pointGenerator.getName() + " Count", valueOf(pointGenerator.getCount()))); //Stores all PointGenerators
         try(FileWriter output = new FileWriter("save.properties")) { //Tries to acquire access to save.properties
@@ -27,22 +31,29 @@ public class SaveManager {
     }
 
     public static void load() {
-        try(FileReader fileReader = new FileReader("save.properties")) { //Tries to read save.properties
+        try {
+            FileReader fileReader = new FileReader("save.properties"); //Tries to read save.properties
             data.load(fileReader); //Copies properties into program
             points += Integer.parseInt(data.getProperty("points")); //Adds stored points to total
-            GUI_Idle_Upgrades.setIdleTimeUpgradeCount(Integer.parseInt("idleTimeUpgradeCount"));
-            GUI_Idle_Upgrades.setIdleTickSpeedUpgradeCount(Integer.parseInt(data.getProperty("idleTickSpeedUpgradeCount")));
+            IdleUpgrades.setIdleTimeUpgradeCount(Integer.parseInt("idleTimeUpgradeCount"));
+            IdleUpgrades.setIdleTickSpeedUpgradeCount(Integer.parseInt(data.getProperty("idleTickSpeedUpgradeCount")));
             clickUpgraders.forEach(clickUpgrader -> clickUpgrader.setCount(Integer.parseInt(data.getProperty(clickUpgrader.getName() + " Count")))); //Sets count of each ClickUpgrader
             pointGenerators.forEach(pointGenerator -> pointGenerator.setCount(Integer.parseInt(data.getProperty(pointGenerator.getName() + " Count")))); //Sets count of each PointGenerator
             int timePassed = (int) ((System.currentTimeMillis() - Long.parseLong(data.getProperty("time"))) / 1000); //Gets time passed since last game open to calculate idle progress
             if (timePassed > idleTime * 3600) timePassed = idleTime * 3600; //If more time has passed than the max idle time, sets it to that
             int offlinePoints = (int) (timePassed * tick() * tickSpeed * idleTickSpeed); //Gets points earned offline
             if (offlinePoints > 0) //Checks if any points are earned offline
-                JOptionPane.showMessageDialog(GUI.frame, "You have earned " + offlinePoints + " points while offline."); //Shows player how many points they've earned
+                JOptionPane.showMessageDialog(GUI_Main.frame, "You have earned " + offlinePoints + " points while offline."); //Shows player how many points they've earned
             points += offlinePoints; //Adds idle points to total count
-        } catch (IOException e) { //No save data found or not able to access
+            prestigeCount = Integer.parseInt(data.getProperty("prestigeCount"));
+            prestigePoints = Integer.parseInt(data.getProperty("prestigePoints"));
+            Upgrades.smallPointGen.setAutobuy(Boolean.parseBoolean(data.getProperty("autobuySmallGenerator")));
+            Upgrades.smallClickUpgrader.setAutobuy(Boolean.parseBoolean(data.getProperty("autobuySmallClickUpgrader")));
+        } catch (IOException error) { //No save data found or not able to access
             System.out.println("No save data found!\nCreating new data...");
             save(); //Creates save file with default settings
+        } catch (NumberFormatException error) {
+            System.out.println("Save is outdated! Trying to load anyways.");
         }
     }
 }

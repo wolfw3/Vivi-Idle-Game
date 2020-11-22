@@ -1,4 +1,6 @@
-package com.weiss;
+package com.weiss.upgrades;
+
+import com.weiss.Main;
 
 import javax.swing.*;
 
@@ -11,6 +13,7 @@ public class PointGenerator {
     private int count = 0;
     private final JButton btn_buy;
     private final String name;
+    private boolean autobuy = false;
 
     public PointGenerator(int pointsPerTick, int initialCost, String name, JButton connectedButton) {
         this.pointsPerTick = pointsPerTick;
@@ -19,7 +22,7 @@ public class PointGenerator {
         this.name = name;
         btn_buy = connectedButton;
         pointGenerators.add(this);
-        btn_buy.addActionListener(e -> buy(GUI_Upgrades.buyAmount));
+        btn_buy.addActionListener(e -> buy(Upgrades.buyAmount));
     }
 
     public void buy(int amount) {
@@ -31,8 +34,17 @@ public class PointGenerator {
         }
     }
 
+    public void setAutobuy (boolean enabled) {
+        autobuy = enabled;
+    }
+
+    public boolean getAutobuy() {
+        return autobuy;
+    }
+
     public void update() {
-        btn_buy.setEnabled(points >= getCost(GUI_Upgrades.buyAmount) * GUI_Upgrades.buyAmount);
+        btn_buy.setEnabled(points >= getCost(Upgrades.buyAmount) * Upgrades.buyAmount);
+        if(btn_buy.isEnabled() && autobuy) buy(1);
         btn_buy.setText(name + " - " + cost + " Points - x" + count);
     }
 

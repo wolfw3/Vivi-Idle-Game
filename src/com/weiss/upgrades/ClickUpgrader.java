@@ -1,9 +1,10 @@
-package com.weiss;
+package com.weiss.upgrades;
+
+import com.weiss.Main;
 
 import javax.swing.*;
 
 import static com.weiss.Main.*;
-import static com.weiss.Main.update;
 
 public class ClickUpgrader {
     private final int pointsPerClick;
@@ -12,6 +13,7 @@ public class ClickUpgrader {
     private int count = 0;
     private final String name;
     private final JButton btn_buy;
+    private boolean autobuy = false;
     public ClickUpgrader(int pointsPerClick, int initialCost, String name, JButton connectedButton) {
         this.pointsPerClick = pointsPerClick;
         this.initialCost = initialCost;
@@ -19,7 +21,7 @@ public class ClickUpgrader {
         this.name = name;
         btn_buy = connectedButton;
         clickUpgraders.add(this);
-        btn_buy.addActionListener(e -> buy(GUI_Upgrades.buyAmount));
+        btn_buy.addActionListener(e -> buy(Upgrades.buyAmount));
     }
 
     public void buy(int amount) {
@@ -32,7 +34,8 @@ public class ClickUpgrader {
     }
 
     public void update() {
-        btn_buy.setEnabled(points >= getCost(GUI_Upgrades.buyAmount) * GUI_Upgrades.buyAmount); //Finds if the buy button should be enabled
+        btn_buy.setEnabled(points >= getCost(Upgrades.buyAmount) * Upgrades.buyAmount); //Finds if the buy button should be enabled
+        if(btn_buy.isEnabled() && autobuy) buy(1);
         btn_buy.setText(name + " - " + cost + " Points - x" + count); //Updates button texts' cost and count
     }
 
@@ -50,6 +53,14 @@ public class ClickUpgrader {
 
     public int getCount() {
         return count;
+    }
+
+    public void setAutobuy(boolean enabled) {
+        autobuy = enabled;
+    }
+
+    public boolean getAutobuy() {
+        return autobuy;
     }
 
     public void setCount(int number) { //Sets number of upgraders and loops through costs to find the correct amount

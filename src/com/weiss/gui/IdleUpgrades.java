@@ -1,10 +1,10 @@
-package com.weiss;
+package com.weiss.gui;
 
 import javax.swing.*;
 
 import static com.weiss.Main.*;
 
-public class GUI_Idle_Upgrades {
+public class IdleUpgrades {
     public JFrame frame = new JFrame("Idle Upgrades");
     private JPanel panel;
     private JButton btnIdleTimeUpgrade;
@@ -14,7 +14,7 @@ public class GUI_Idle_Upgrades {
     private int idleTickSpeedUpgradeCost = 750;
     private int idleTimeUpgradeCost = 500;
 
-    public GUI_Idle_Upgrades() {
+    public IdleUpgrades() {
         btnIdleTimeUpgrade.addActionListener(e -> {
             points -= idleTimeUpgradeCost;
             idleTimeUpgradeCount += 1;

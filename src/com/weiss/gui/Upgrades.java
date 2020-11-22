@@ -1,10 +1,13 @@
-package com.weiss;
+package com.weiss.gui;
+
+import com.weiss.upgrades.ClickUpgrader;
+import com.weiss.upgrades.PointGenerator;
 
 import javax.swing.*;
 
 import static com.weiss.Main.*;
 
-public class GUI_Upgrades {
+public class Upgrades {
 
     public JFrame frame = new JFrame("Upgrades");
     public int buyAmount = 1;
@@ -18,7 +21,7 @@ public class GUI_Upgrades {
     public PointGenerator largePointGen = new PointGenerator(8, 1000, "Large Point Generator", btn_large_point_gen);
     public ClickUpgrader smallClickUpgrader = new ClickUpgrader(1, 100, "Small Click Upgrader", btn_click_upgrade);
 
-    public GUI_Upgrades() {
+    public Upgrades() {
     }
 
     public void checkPoints() {
