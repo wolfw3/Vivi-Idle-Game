@@ -35,7 +35,7 @@ public class SaveManager {
             FileReader fileReader = new FileReader("save.properties"); //Tries to read save.properties
             data.load(fileReader); //Copies properties into program
             points += Integer.parseInt(data.getProperty("points")); //Adds stored points to total
-            IdleUpgrades.setIdleTimeUpgradeCount(Integer.parseInt("idleTimeUpgradeCount"));
+            IdleUpgrades.setIdleTimeUpgradeCount(Integer.parseInt(data.getProperty("idleTimeUpgradeCount")));
             IdleUpgrades.setIdleTickSpeedUpgradeCount(Integer.parseInt(data.getProperty("idleTickSpeedUpgradeCount")));
             clickUpgraders.forEach(clickUpgrader -> clickUpgrader.setCount(Integer.parseInt(data.getProperty(clickUpgrader.getName() + " Count")))); //Sets count of each ClickUpgrader
             pointGenerators.forEach(pointGenerator -> pointGenerator.setCount(Integer.parseInt(data.getProperty(pointGenerator.getName() + " Count")))); //Sets count of each PointGenerator
@@ -53,7 +53,9 @@ public class SaveManager {
             System.out.println("No save data found!\nCreating new data...");
             save(); //Creates save file with default settings
         } catch (NumberFormatException error) {
+            error.printStackTrace();
             System.out.println("Save is outdated! Trying to load anyways.");
+            save();
         }
     }
 }
