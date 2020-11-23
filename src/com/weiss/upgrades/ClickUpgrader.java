@@ -37,9 +37,11 @@ public class ClickUpgrader {
     }
 
     public void update() {
-        btn_buy.setEnabled(points >= getCost(Upgrades.buyAmount) * Upgrades.buyAmount); //Finds if the buy button should be enabled
-        if(btn_buy.isEnabled() && autobuy) buy(1);
-        btn_buy.setText(name + " - " + cost + " Points - x" + count); //Updates button texts' cost and count
+        if(points >= getCost(Upgrades.buyAmount)) {
+            btn_buy.setEnabled(true);
+            if(autobuy) buy(1);
+        } else btn_buy.setEnabled(false);
+        btn_buy.setText(name + " - " + cost + " Points - x" + count);
     }
 
     private int getCost(int buyAmount) {

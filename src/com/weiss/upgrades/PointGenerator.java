@@ -46,8 +46,10 @@ public class PointGenerator {
     }
 
     public void update() {
-        btn_buy.setEnabled(points >= getCost(Upgrades.buyAmount) * Upgrades.buyAmount);
-        if(btn_buy.isEnabled() && autobuy) buy(1);
+        if(points >= getCost(Upgrades.buyAmount)) {
+            btn_buy.setEnabled(true);
+            if(autobuy) buy(1);
+        } else btn_buy.setEnabled(false);
         btn_buy.setText(name + " - " + cost + " Points - x" + count);
     }
 
