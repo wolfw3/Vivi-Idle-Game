@@ -58,6 +58,7 @@ public class Main {
             points -= pointCost;
         }
         btn_prestige.setVisible(pendingPrestigePoints > 0);
+        btn_prestige.setText("Prestige - Resets ALL Points - " + pendingPrestigePoints + " Prestige Points");
         btn_prestige_upgrades.setVisible(prestigePoints > 0);
     }
 

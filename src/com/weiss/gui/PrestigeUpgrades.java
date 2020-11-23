@@ -1,6 +1,8 @@
 package com.weiss.gui;
 
 import com.weiss.Main;
+import com.weiss.upgrades.ClickUpgrader;
+import com.weiss.upgrades.PointGenerator;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,21 +18,34 @@ public class PrestigeUpgrades {
     private final JFrame frame = new JFrame("Prestige Upgrades");
 
     public PrestigeUpgrades() {
-        btn_autobuy_small_generator.addActionListener(actionEvent -> {
-            Upgrades.smallPointGen.setAutobuy(true);
-            prestigePoints -= 5;
-        });
-        btn_autobuy_small_click_upgrader.addActionListener(actionEvent -> {
-            Upgrades.smallClickUpgrader.setAutobuy(true);
-            prestigePoints -= 8;
-        });
+        Upgrades.smallPointGen.setAutobuyOptions(5, btn_autobuy_small_generator);
+        Upgrades.smallClickUpgrader.setAutobuyOptions(8, btn_autobuy_small_click_upgrader);
     }
 
     public void checkPoints() {
-        btn_autobuy_small_generator.setEnabled(prestigePoints >= 5);
-        btn_autobuy_small_click_upgrader.setEnabled(prestigePoints >= 8);
-        if(Upgrades.smallPointGen.getAutobuy()) btn_autobuy_small_generator.setText("Autobuy Small Generators - PURCHASED");
-        if(Upgrades.smallClickUpgrader.getAutobuy()) btn_autobuy_small_click_upgrader.setText("Autobuy Small Click Upgrader - PURCHASED");
+        lbl_prestige_points.setText("Prestige Points: " + prestigePoints);
+        for (PointGenerator pointGenerator : pointGenerators) {
+            if (pointGenerator.hasAutobuy()) {
+                if(pointGenerator.getAutobuy()) {
+                    pointGenerator.getAutobuyButton().setEnabled(false);
+                    pointGenerator.getAutobuyButton().setText("Autobuy " + pointGenerator.getName() + " - PURCHASED");
+                } else {
+                    pointGenerator.getAutobuyButton().setEnabled(prestigePoints >= pointGenerator.getAutobuyCost());
+                    pointGenerator.getAutobuyButton().setText("Autobuy " + pointGenerator.getName() + " - " + pointGenerator.getAutobuyCost() + " Prestige Points");
+                }
+            }
+        }
+        for (ClickUpgrader clickUpgrader : clickUpgraders) {
+            if (clickUpgrader.hasAutobuy()) {
+                if(clickUpgrader.getAutobuy()) {
+                    clickUpgrader.getAutobuyButton().setEnabled(false);
+                    clickUpgrader.getAutobuyButton().setText("Autobuy " + clickUpgrader.getName() + " - PURCHASED");
+                } else {
+                    clickUpgrader.getAutobuyButton().setEnabled(prestigePoints >= clickUpgrader.getAutobuyCost());
+                    clickUpgrader.getAutobuyButton().setText("Autobuy " + clickUpgrader.getName() + " - " + clickUpgrader.getAutobuyCost() + " Prestige Points");
+                }
+            }
+        }
     }
 
     public void init() {

@@ -9,9 +9,12 @@ import static com.weiss.Main.*;
 public class PointGenerator {
     private final int initialCost;
     private int cost;
+    private int autobuyCost;
     private final int pointsPerTick;
     private int count = 0;
     private final JButton btn_buy;
+    private JButton btn_autobuy;
+    private boolean hasAutobuy = false;
     private final String name;
     private boolean autobuy = false;
 
@@ -66,6 +69,29 @@ public class PointGenerator {
         for (int i = 0; i < count; i++) {
             cost *= 1.35;
         }
+    }
+
+    public void setAutobuyOptions(int cost, JButton button) {
+        btn_autobuy = button;
+        autobuyCost = cost;
+        hasAutobuy = true;
+        btn_autobuy.addActionListener(actionEvent -> {
+            prestigePoints -= autobuyCost;
+            setAutobuy(true);
+            update();
+        });
+    }
+
+    public int getAutobuyCost() {
+        return autobuyCost;
+    }
+
+    public JButton getAutobuyButton() {
+        return btn_autobuy;
+    }
+
+    public boolean hasAutobuy() {
+        return hasAutobuy;
     }
 
     public String getName() {

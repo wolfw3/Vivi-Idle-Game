@@ -13,6 +13,9 @@ public class ClickUpgrader {
     private int count = 0;
     private final String name;
     private final JButton btn_buy;
+    private JButton btn_autobuy;
+    private int autobuyCost;
+    private boolean hasAutobuy = false;
     private boolean autobuy = false;
     public ClickUpgrader(int pointsPerClick, int initialCost, String name, JButton connectedButton) {
         this.pointsPerClick = pointsPerClick;
@@ -69,5 +72,28 @@ public class ClickUpgrader {
         for (int i = 0; i < count; i++) {
             cost *= 1.5;
         }
+    }
+
+    public void setAutobuyOptions(int cost, JButton button) {
+        btn_autobuy = button;
+        autobuyCost = cost;
+        hasAutobuy = true;
+        btn_autobuy.addActionListener(actionEvent -> {
+            prestigePoints -= autobuyCost;
+            setAutobuy(true);
+            update();
+        });
+    }
+
+    public int getAutobuyCost() {
+        return autobuyCost;
+    }
+
+    public JButton getAutobuyButton() {
+        return btn_autobuy;
+    }
+
+    public boolean hasAutobuy() {
+        return hasAutobuy;
     }
 }
