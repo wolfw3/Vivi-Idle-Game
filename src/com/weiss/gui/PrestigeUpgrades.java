@@ -1,13 +1,11 @@
 package com.weiss.gui;
 
-import com.weiss.Main;
 import com.weiss.upgrades.ClickUpgrader;
 import com.weiss.upgrades.PointGenerator;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+import static com.weiss.Main.Upgrades;
 import static com.weiss.Main.*;
 
 public class PrestigeUpgrades {

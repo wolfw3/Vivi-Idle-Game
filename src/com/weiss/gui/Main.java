@@ -4,9 +4,9 @@ import com.weiss.SaveManager;
 
 import javax.swing.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import static com.weiss.Main.IdleUpgrades;
+import static com.weiss.Main.PrestigeUpgrades;
+import static com.weiss.Main.Upgrades;
 import static com.weiss.Main.*;
 
 public class Main {
