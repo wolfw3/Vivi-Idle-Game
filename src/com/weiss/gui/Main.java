@@ -4,6 +4,10 @@ import com.weiss.SaveManager;
 
 import javax.swing.*;
 
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static com.weiss.Main.IdleUpgrades;
 import static com.weiss.Main.PrestigeUpgrades;
 import static com.weiss.Main.Upgrades;
@@ -19,7 +23,18 @@ public class Main {
     private JButton btn_exit;
     private JButton btn_prestige;
     private JButton btn_prestige_upgrades;
+    private JLabel lbl_news_ticker;
     public JFrame frame = new JFrame("Clicker");
+    private final String[] news = {
+            "Breaking News: Points Generated after 2020 subject to taxes",
+            "Keep on clicking!",
+            "Made by Vivian!",
+            "Stats coming soon!",
+            "Vivian#9120 on Discord!",
+            "You're welcome for the arthritis!",
+            "Have you prestiged yet?",
+            "Barely functioning saves!"
+    };
 
     public Main() {
         btn_click.addActionListener(actionEvent -> {
@@ -50,6 +65,18 @@ public class Main {
         btn_prestige_upgrades.addActionListener(actionEvent -> PrestigeUpgrades.init());
     }
 
+    private void updateNewsTicker() {
+        String newsToSet = news[new Random().nextInt(news.length)];
+        lbl_news_ticker.setText(newsToSet);
+        Timer newsTimer = new Timer("News Ticker");
+        newsTimer.schedule(new TimerTask() { //Autosave timer
+            @Override
+            public void run() {
+                updateNewsTicker();
+            }
+        }, newsToSet.length() * 500);
+    }
+
     public void checkPrestige() {
         pendingPrestigePoints = 0;
         int points = com.weiss.Main.points;
@@ -71,5 +98,6 @@ public class Main {
         frame.setContentPane(panel);
         frame.pack();
         frame.setVisible(true);
+        updateNewsTicker();
     }
 }

@@ -18,7 +18,7 @@ public class Main {
     public static int pendingPrestigePoints = 0;
     public static int prestigeCount = 0;
     public static int idleTime = 2; //Hours
-    public static double idleTickSpeed = 0.5D;
+    public static double idleTickSpeed = 0.5; //Multiplied by tickSpeed to get idle tick speed
     public static int tickSpeed = 2; //Ticks per second
     public static Timer tickTimer = new Timer("Tick");
     public static Timer saveTimer = new Timer("Autosave");
