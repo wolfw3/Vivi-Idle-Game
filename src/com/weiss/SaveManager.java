@@ -38,7 +38,7 @@ public class SaveManager {
             IdleUpgrades.setIdleTimeUpgradeCount(Integer.parseInt(data.getProperty("idleTimeUpgradeCount")));
             IdleUpgrades.setIdleTickSpeedUpgradeCount(Integer.parseInt(data.getProperty("idleTickSpeedUpgradeCount")));
             clickUpgraders.forEach(clickUpgrader -> clickUpgrader.setCount(Integer.parseInt(data.getProperty(clickUpgrader.getName() + " Count")))); //Sets count of each ClickUpgrader
-            pointGenerators.forEach(pointGenerator -> pointGenerator.setCount(Integer.parseInt(data.getProperty(pointGenerator.getName() + " Count")))); //Sets count of each PointGenerator
+            pointGenerators.forEach(pointGenerator -> pointGenerator.setCount(Integer.parseInt(data.getProperty(pointGenerator.getName() + " Count")))); //Sets count of each Upgrader
             int timePassed = (int) ((System.currentTimeMillis() - Long.parseLong(data.getProperty("time"))) / 1000); //Gets time passed since last game open to calculate idle progress
             if (timePassed > idleTime * 3600) timePassed = idleTime * 3600; //If more time has passed than the max idle time, sets it to that
             int offlinePoints = (int) (timePassed * tick() * tickSpeed * idleTickSpeed); //Gets points earned offline

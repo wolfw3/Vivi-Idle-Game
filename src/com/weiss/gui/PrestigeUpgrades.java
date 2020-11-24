@@ -1,7 +1,6 @@
 package com.weiss.gui;
 
-import com.weiss.upgrades.ClickUpgrader;
-import com.weiss.upgrades.PointGenerator;
+import com.weiss.Upgrader;
 
 import javax.swing.*;
 
@@ -22,7 +21,7 @@ public class PrestigeUpgrades {
 
     public void checkPoints() {
         lbl_prestige_points.setText("Prestige Points: " + prestigePoints);
-        for (PointGenerator pointGenerator : pointGenerators) {
+        for (Upgrader pointGenerator : pointGenerators) {
             if (pointGenerator.hasAutobuy()) {
                 if(pointGenerator.getAutobuy()) {
                     pointGenerator.getAutobuyButton().setEnabled(false);
@@ -33,7 +32,7 @@ public class PrestigeUpgrades {
                 }
             }
         }
-        for (ClickUpgrader clickUpgrader : clickUpgraders) {
+        for (Upgrader clickUpgrader : clickUpgraders) {
             if (clickUpgrader.hasAutobuy()) {
                 if(clickUpgrader.getAutobuy()) {
                     clickUpgrader.getAutobuyButton().setEnabled(false);

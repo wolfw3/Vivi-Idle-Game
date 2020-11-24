@@ -38,7 +38,7 @@ public class Main {
 
     public Main() {
         btn_click.addActionListener(actionEvent -> {
-            clickUpgraders.forEach(clickUpgrader -> points += clickUpgrader.getCount() * clickUpgrader.getPointsPerClick()); //Adds upgraders' bonus points
+            clickUpgraders.forEach(clickUpgrader -> points += clickUpgrader.getCount() * clickUpgrader.getPoints()); //Adds upgraders' bonus points
             points++; //Base click
             update();
         });
